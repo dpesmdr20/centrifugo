@@ -4,7 +4,7 @@ on:
       - develop
 name: centrifugo-ws
 env:
-  AWS_REGION                : "us-east-1"
+  AWS_REGION                : "ap-south-1"
   ECR_REGISTRY              : "724239100457.dkr.ecr.ap-south-1.amazonaws.com"
   ECS_TASK                  : "centrifugo_task"
   ECS_SERVICE               : "centrifugo_service"
