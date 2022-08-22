@@ -6,8 +6,8 @@ name: centrifugo-ws
 env:
   AWS_REGION                : "us-east-1"
   ECR_REGISTRY              : "724239100457.dkr.ecr.ap-south-1.amazonaws.com"
-  ECS_TASK                  : "task_develop_django"
-  ECS_SERVICE               : "service_develop_django"
+  ECS_TASK                  : "centrifugo_task"
+  ECS_SERVICE               : "centrifugo_service"
   ECS_CLUSTER               : "cluster-django"
   CONTAINER_NAME            : "container_develop_django"
   ECR_REPOSITORY            : "centrifugo"
