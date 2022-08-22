@@ -1,8 +1,11 @@
 version: '3'
 services:
   app:
+    ports:
+      - 8000:8000
     build:
       context: .
     restart: always
+    
   
 # touch /centrifugo/config.json && echo '{"port":8000,"engine":"redis","redis_address":"redis://host.docker.internal:6379","allowed_origins":["http://localhost:9000","http://127.0.0.1:9000"],"namespaces":[{"name":"rooms","publish":true,"proxy_publish":true,"proxy_subscribe":true}]}' > /centrifugo/config.json

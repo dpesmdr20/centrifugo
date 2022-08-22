@@ -5,6 +5,8 @@
   "allowed_origins": [
     "*"
   ],
+  "debug": true,
+  "health":true,
   "namespaces": [
     {
       "name": "rooms",
