@@ -1,0 +1,10 @@
+{
+  "port": 8000,
+  "engine": "redis",
+  "redis_address": "redis://redis-engine-001.iwnyzv.0001.aps1.cache.amazonaws.com:6379",
+  "allowed_origins": [
+    "*"
+  ],
+  "debug": true,
+  "health":true
+}
