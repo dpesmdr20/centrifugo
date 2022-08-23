@@ -13,14 +13,14 @@
   "api_key": "bd2d689c-09e9-426c-b52a-1711c7725e61",
   "admin":true,
   "publish": true,
-  "presence": true,
+  "allow_publish_for_client":true,
+  "allow_publish_for_anonymous": true,
   "namespaces": [
     {
-      "presence": true,
       "name": "channel",
       "publish": true,
-      "subscribe_to_publish":true,
-      "allow_publish_for_client":true
+      "allow_publish_for_client":true,
+      "allow_publish_for_anonymous":true
     }
   ]
 }
