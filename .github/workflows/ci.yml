@@ -6,10 +6,10 @@ name: centrifugo-ws
 env:
   AWS_REGION                : "ap-south-1"
   ECR_REGISTRY              : "724239100457.dkr.ecr.ap-south-1.amazonaws.com"
-  ECS_TASK                  : "task_centrifugo"
-  ECS_SERVICE               : "service_centrifugo"
+  ECS_TASK                  : "centrifugo_task"
+  ECS_SERVICE               : "centrifugo_service"
   ECS_CLUSTER               : "cluster-centrifugo"
-  CONTAINER_NAME            : "container_centrifugo"
+  CONTAINER_NAME            : "centrifugo_container"
   ECR_REPOSITORY            : "centrifugo"
 
 jobs:
@@ -46,53 +46,53 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
     
-    # - name: Get, set branch name
-    #   id: vars
-    #   run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+    - name: Get, set branch name
+      id: vars
+      run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
 
-    # - name: Download stage task definition
-    #   if: ${{ env.BRANCH == 'staging' }}
-    #   id: download-stage-task-def
-    #   env:
-    #     ECS_TASK: ${{ env.ECS_TASK_STAGE }}
-    #     ECS_SERVICE: ${{ env.ECS_SERVICE_STAGE }}
-    #     CONTAINER_NAME: ${{ env.CONTAINER_NAME_STAGE }}
-    #   run: |
-    #     aws ecs describe-task-definition --task-definition $ECS_TASK --query taskDefinition > task-definition.json
-    #     echo "ECS_SERVICE=${{ env.ECS_SERVICE_STAGE }}" >> $GITHUB_ENV
-    #     echo "ECS_TASK=${{ env.ECS_TASK_STAGE }}" >> $GITHUB_ENV
-    #     echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}" >> $GITHUB_ENV
-    #     echo "CONTAINER_NAME=${{ env.CONTAINER_NAME_STAGE }}" >> $GITHUB_ENV
+    - name: Download stage task definition
+      if: ${{ env.BRANCH == 'staging' }}
+      id: download-stage-task-def
+      env:
+        ECS_TASK: ${{ env.ECS_TASK_STAGE }}
+        ECS_SERVICE: ${{ env.ECS_SERVICE_STAGE }}
+        CONTAINER_NAME: ${{ env.CONTAINER_NAME_STAGE }}
+      run: |
+        aws ecs describe-task-definition --task-definition $ECS_TASK --query taskDefinition > task-definition.json
+        echo "ECS_SERVICE=${{ env.ECS_SERVICE_STAGE }}" >> $GITHUB_ENV
+        echo "ECS_TASK=${{ env.ECS_TASK_STAGE }}" >> $GITHUB_ENV
+        echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}" >> $GITHUB_ENV
+        echo "CONTAINER_NAME=${{ env.CONTAINER_NAME_STAGE }}" >> $GITHUB_ENV
 
-    # - name: Download develop task definition
-    #   if: ${{ env.BRANCH == 'develop' }}
-    #   id: download-task-def
-    #   env:
-    #     ECS_TASK: ${{ env.ECS_TASK }}
-    #     ECS_SERVICE: ${{ env.ECS_SERVICE }}
-    #     CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
-    #   run: |
-    #     aws ecs describe-task-definition --task-definition $ECS_TASK --query taskDefinition > task-definition.json
-    #     echo "ECS_SERVICE=${{ env.ECS_SERVICE }}" >> $GITHUB_ENV
-    #     echo "ECS_TASK=${{ env.ECS_TASK }}" >> $GITHUB_ENV
-    #     echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}" >> $GITHUB_ENV
-    #     echo "CONTAINER_NAME=${{ env.CONTAINER_NAME }}" >> $GITHUB_ENV
+    - name: Download develop task definition
+      if: ${{ env.BRANCH == 'develop' }}
+      id: download-task-def
+      env:
+        ECS_TASK: ${{ env.ECS_TASK }}
+        ECS_SERVICE: ${{ env.ECS_SERVICE }}
+        CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+      run: |
+        aws ecs describe-task-definition --task-definition $ECS_TASK --query taskDefinition > task-definition.json
+        echo "ECS_SERVICE=${{ env.ECS_SERVICE }}" >> $GITHUB_ENV
+        echo "ECS_TASK=${{ env.ECS_TASK }}" >> $GITHUB_ENV
+        echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}" >> $GITHUB_ENV
+        echo "CONTAINER_NAME=${{ env.CONTAINER_NAME }}" >> $GITHUB_ENV
 
-    # - name: Fill in the new image ID in the Amazon ECS task definition
-    #   id: task-def
-    #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-    #   with:
-    #     task-definition: task-definition.json
-    #     container-name: ${{ env.CONTAINER_NAME }}
-    #     image: ${{ steps.build-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
 
-    # - name: Deploy Amazon ECS task definition
-    #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-    #   with:
-    #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-    #     service: ${{ env.ECS_SERVICE }}
-    #     cluster: ${{ env.ECS_CLUSTER }}
-    #     wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
 
-    # - name: Print Status message on completion
-    #   run : echo "CI/CD Pipeline finished successfully"
+    - name: Print Status message on completion
+      run : echo "CI/CD Pipeline finished successfully"

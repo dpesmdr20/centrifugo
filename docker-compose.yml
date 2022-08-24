@@ -1,11 +1,21 @@
 version: '3'
 services:
+  centrifugo:
+      image: centrifugo/centrifugo:v3.0.5
+      volumes:
+        - ./config/centrifugo.json:/centrifugo/config.json
+      command: centrifugo -c /centrifugo/config.json
+      ports:
+        - 9000:9000
+      ulimits:
+        nofile:
+          soft: 65535
+          hard: 65535
   app:
     ports:
-      - 8000:8000
+      - 8005:8005
     build:
-      context: .
+      context: ./centrifugo
     restart: always
-    
+    command: python manage.py runserver 0.0.0.0:8005
   
-# touch /centrifugo/config.json && echo '{"port":8000,"engine":"redis","redis_address":"redis://host.docker.internal:6379","allowed_origins":["http://localhost:9000","http://127.0.0.1:9000"],"namespaces":[{"name":"rooms","publish":true,"proxy_publish":true,"proxy_subscribe":true}]}' > /centrifugo/config.json

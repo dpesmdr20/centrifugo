@@ -1,0 +1,50 @@
+{
+  "port": 8000,
+  "engine": "redis",
+  "redis_address": "redis://redis-engine-001.iwnyzv.0001.aps1.cache.amazonaws.com:6379",
+  "allowed_origins": [
+    "*"
+  ],
+  "debug": true,
+  "health":true
+}
+{
+  "token_hmac_secret_key": "c7e9da35-f4e9-4447-81d2-668ea3932c06",
+  "admin": true,
+  "port": 9000,
+  "admin_password": "ad0dff75-3131-4a02-8d64-9279b4f1c57b",
+  "admin_secret": "583bc4b7-0fa5-4c4a-8566-16d3ce4ad401",
+  "api_key": "3ad29919-1d53-4ce1-a979-1b996c6fde9b",
+  "allowed_origins": ["*"],
+  // "user_subscribe_to_personal": true,
+  // "user_personal_single_connection": true,
+  // "user_personal_channel_namespace": "personal",
+  "engine": "redis",
+  "redis_address": "redis://host.docker.internal:6379",
+  "health":true,
+  "allow_subscribe_for_client": true,
+  "publish":true,
+  "anonymous":true,
+  "namespaces": [
+    {
+      "name": "personal",
+      "presence": true,
+      "history_ttl": "300s",
+      "history_size": 20,
+      "recover": true
+    },
+    {
+      "name": "game",
+      "presence": true,
+      "join_leave": true,
+      "history_ttl": "300s",
+      "history_size": 20,
+      "recover": true
+    },
+    {
+      "name": "public",
+      "presence": true,
+      "presence_disable_for_client": true
+    }
+  ]
+}

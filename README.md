@@ -1,1 +1,1 @@
-# centrifugo
+# centrifugo based server
