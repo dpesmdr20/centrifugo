@@ -7,8 +7,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("token/", views.generate_token,name="generate_token"),
-    path("broadcast/", views.broadcast, name="broadcast"),
-    path("publish/", views.publish, name="publish"),
+    path("centrifugo/token/", views.generate_token,name="generate_token"),
+    path("centrifugo/broadcast/", views.broadcast, name="broadcast"),
+    path("centrifugo/publish/", views.publish, name="publish"),
     path("admin/", admin.site.urls),
 ]

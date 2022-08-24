@@ -7,11 +7,8 @@
   "api_key": "3ad29919-1d53-4ce1-a979-1b996c6fde9b",
   "allowed_origins": ["*"],
   "engine": "redis",
-  "redis_address": "redis://redis-engine-001.iwnyzv.0001.aps1.cache.amazonaws.com:6379",
+  "redis_address": "redis://host.docker.internal:6379",
   "health":true,
-  "allow_subscribe_for_client": true,
-  "publish":true,
-  "allow_subscribe_for_anonymous":true,
   "namespaces": [
     {
       "name": "personal",
