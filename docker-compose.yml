@@ -1,29 +1,31 @@
 version: '3'
 services:
-  centrifugo:
-      image: centrifugo/centrifugo:v3.0.5
-      volumes:
-        - ./config/centrifugo.json:/centrifugo/config.json
-      # command: centrifugo -c /centrifugo/config.json
-      ports:
-        - 9000:9000
-      ulimits:
-        nofile:
-          soft: 65535
-          hard: 65535
+  websocket:
+    build:
+      context: ./websocket
+    restart: always
+    ports:
+      - 9000:9000
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
   app:
     ports:
       - 8001:8001
     build:
       context: ./centrifugo
     restart: always
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf
+  proxy:
+    build:
+      context: ./proxy
+    restart: always
+    depends_on:
+      - app
+      - websocket
     ports:
       - 80:8000
-    # command: 'bash -c "nginx -g ''daemon off;''"'
-    depends_on:
-      - centrifugo
-      - app
+    volumes:
+      - static-data:/vol/static
+volumes:
+  static-data:
