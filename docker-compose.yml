@@ -2,30 +2,11 @@ version: '3'
 services:
   websocket:
     build:
-      context: ./websocket
+      context: .
     restart: always
     ports:
-      - 9000:9000
+      - 80:9000
     ulimits:
       nofile:
         soft: 65535
         hard: 65535
-  app:
-    ports:
-      - 8001:8001
-    build:
-      context: ./centrifugo
-    restart: always
-  proxy:
-    build:
-      context: ./proxy
-    restart: always
-    depends_on:
-      - app
-      - websocket
-    ports:
-      - 80:8000
-    volumes:
-      - static-data:/vol/static
-volumes:
-  static-data:
