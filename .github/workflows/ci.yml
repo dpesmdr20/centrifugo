@@ -6,7 +6,7 @@ name: centrifugo-ws
 env:
   AWS_REGION                : "ap-south-1"
   ECR_REGISTRY              : "724239100457.dkr.ecr.ap-south-1.amazonaws.com"
-  ECS_TASK                  : "centrifugo_task"
+  ECS_TASK                  : "task_centrifugo"
   ECS_SERVICE               : "centrifugo_service"
   ECS_CLUSTER               : "cluster-centrifugo"
   CONTAINER_NAME            : "centrifugo_container"
