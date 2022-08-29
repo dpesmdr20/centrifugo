@@ -9,7 +9,7 @@ env:
   ECS_TASK                  : "task_centrifugo"
   ECS_SERVICE               : "service_centrifugo"
   ECS_CLUSTER               : "cluster-centrifugo"
-  CONTAINER_NAME            : "centrifugo_container"
+  CONTAINER_NAME            : "container_centrifugo"
   ECR_REPOSITORY            : "centrifugo"
 
 jobs:
